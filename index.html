@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>trincity | Premium & Streetwear</title>
+    <title>trincity | HQ</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,11 +12,12 @@
     <style>
         /* CSS PREMENNÉ */
         :root {
-            --camo-bg: #0d110f; /* Veľmi tmavý základ */
-            --pink-neon: #ff2a85; /* Tvoja ružová */
-            --purple-glow: #8a2be2; /* Fialová z tvojej fotky pre podsvietenie */
+            --camo-bg: #0d110f;
+            --pink-neon: #ff2a85;
+            --purple-glow: #8a2be2;
             --text-light: #f5f5f5;
             --card-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg: rgba(20, 25, 22, 0.7);
         }
 
         * {
@@ -28,24 +29,59 @@
 
         body {
             background-color: var(--camo-bg);
-            /* Jemný dark camo pattern s textúrou */
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(35, 45, 30, 0.3) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(50, 40, 45, 0.3) 0%, transparent 40%),
                 url('https://www.transparenttextures.com/patterns/black-scales.png');
             color: var(--text-light);
             overflow-x: hidden;
+            /* Flexbox pre ukotvenie footra naspodku */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        a { text-decoration: none; color: inherit; }
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+        
+        /* SYSTÉM PODSTRÁNOK */
+        .page {
+            display: none; /* Skryje všetky stránky */
+            flex: 1;
+            padding: 120px 5vw 80px;
+            animation: fadeIn 0.4s ease;
+        }
 
-        /* 1. HEADER & MOBILNÉ MENU */
+        .page.active {
+            display: block; /* Zobrazí len aktívnu stránku */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2.page-title {
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        h2.page-title span {
+            color: var(--pink-neon);
+            font-family: 'Permanent Marker', cursive;
+            text-transform: lowercase;
+            margin-left: 10px;
+        }
+
+        /* HEADER & MENU */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 5vw;
-            background: rgba(13, 17, 15, 0.9);
+            background: rgba(13, 17, 15, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 42, 133, 0.2);
             position: fixed;
@@ -64,7 +100,7 @@
             transform: rotate(-2deg);
             transition: 0.3s;
             position: relative;
-            z-index: 1001; /* Aby bolo nad mobilným menu */
+            z-index: 1001;
         }
 
         .nav-links {
@@ -106,7 +142,6 @@
             box-shadow: 0 0 25px rgba(255, 42, 133, 0.6);
         }
 
-        /* Hamburger Ikona (skrytá na PC) */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -117,48 +152,73 @@
         }
 
         .hamburger span {
-            width: 25px; height: 3px;
+            width: 30px; height: 3px;
             background-color: var(--text-light);
             border-radius: 3px;
             transition: 0.3s;
         }
 
-        /* 2. HERO SEKCIJA */
-        .hero {
-            margin-top: 80px;
-            padding: 60px 5vw;
+        /* ÚVODNÁ STRÁNKA (HOME) */
+        #page-home {
             text-align: center;
+            display: flex; /* Override when active to center content */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 80px); /* Fill screen minus header */
+            padding-top: 0;
+            background: radial-gradient(circle, rgba(255,42,133,0.1) 0%, transparent 60%);
+        }
+        
+        #page-home:not(.active) {
+            display: none;
         }
 
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 4rem);
-            margin-bottom: 10px;
-            line-height: 1.2;
+        #page-home h1 {
+            font-size: clamp(3rem, 6vw, 6rem);
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
         }
 
-        .hero p {
-            color: #aaa;
-            font-size: 1.1rem;
+        #page-home p {
+            color: #ccc;
+            font-size: 1.2rem;
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0 auto 40px;
         }
 
-        /* 3. PRODUKTY S GLOW EFEKTOM (Podľa fotky) */
-        .products {
-            padding: 20px 5vw 80px;
+        .btn-outline {
+            display: inline-block;
+            border: 2px solid var(--pink-neon);
+            color: var(--pink-neon);
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: 0.3s;
+            text-transform: uppercase;
         }
 
+        .btn-outline:hover {
+            background: var(--pink-neon);
+            color: white;
+            box-shadow: 0 0 25px rgba(255, 42, 133, 0.7);
+        }
+
+        /* STRÁNKA PRODUKTOV (STASH) + VÄČŠÍ GLOW */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
         }
 
         .product-card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 20px;
+            padding: 30px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -166,44 +226,52 @@
         }
 
         .product-card:hover {
-            border-color: rgba(255, 42, 133, 0.3);
-            transform: translateY(-5px);
+            border-color: rgba(255, 42, 133, 0.5);
+            transform: translateY(-10px);
         }
 
-        /* Glow efekt z tvojej fotky */
         .img-container {
             position: relative;
             width: 100%;
-            height: 250px;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
+        /* ZVÄČŠENÝ A ZOSILNENÝ GLOW EFEKT */
         .img-container::before {
             content: '';
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 70%; height: 70%;
-            background: radial-gradient(circle, var(--purple-glow) 0%, var(--pink-neon) 40%, transparent 70%);
-            filter: blur(40px);
+            width: 90%; height: 90%; /* Zväčšené */
+            background: radial-gradient(circle, var(--purple-glow) 0%, var(--pink-neon) 50%, transparent 80%);
+            filter: blur(60px); /* Brutálnejší blur */
             z-index: 0;
-            opacity: 0.7;
-            transition: 0.3s;
+            opacity: 0.95; /* Silnejšia farba */
+            transition: 0.4s ease-out;
         }
 
-        .product-card:hover .img-container::before { opacity: 1; filter: blur(50px); }
+        .product-card:hover .img-container::before { 
+            opacity: 1; 
+            filter: blur(75px);
+            transform: translate(-50%, -50%) scale(1.15); /* Pri hoveri sa žiara ešte nafúkne */
+        }
 
         .img-container img {
-            max-height: 90%;
-            max-width: 90%;
+            max-height: 95%;
+            max-width: 95%;
             object-fit: contain;
             position: relative;
             z-index: 1;
-            /* Na demonštráciu pridáme drop-shadow na PNGčkam */
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); 
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6)); 
+            transition: 0.3s;
+        }
+        
+        .product-card:hover .img-container img {
+            transform: scale(1.05);
         }
 
         .sale-badge {
@@ -213,167 +281,179 @@
             color: white;
             font-size: 0.8rem;
             font-weight: bold;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             z-index: 2;
+            box-shadow: 0 0 10px rgba(255, 42, 133, 0.5);
         }
 
-        .product-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        
-        .price {
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        .old-price {
-            text-decoration: line-through;
-            color: #777;
-            font-size: 0.9rem;
-            margin-right: 10px;
-        }
+        .product-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
+        .price { margin-bottom: 20px; font-weight: 600; font-size: 1.1rem;}
+        .old-price { text-decoration: line-through; color: #777; font-size: 0.9rem; margin-right: 10px; }
 
         .add-btn {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.05);
             color: var(--text-light);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px 0;
+            padding: 12px 0;
             width: 100%;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 1rem;
             transition: 0.3s;
         }
 
-        .add-btn:hover {
-            background: var(--text-light);
-            color: var(--camo-bg);
-        }
+        .add-btn:hover { background: var(--text-light); color: var(--camo-bg); }
 
-        /* 4. PLATOBNÁ BRÁNA (MODAL) */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
+        /* STRÁNKA O NÁS (ABOUT) */
+        .about-content {
             display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
             align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .about-text { flex: 1; min-width: 300px; }
+        .about-text p { font-size: 1.2rem; line-height: 1.8; color: #bbb; margin-bottom: 20px; }
+        .about-text p strong { color: white; }
+        .about-image { flex: 1; min-width: 300px; position: relative; }
+        .about-image img {
+            width: 100%; border-radius: 12px; filter: grayscale(40%) contrast(120%);
+            border: 2px solid rgba(255, 42, 133, 0.2); box-shadow: 10px 10px 0px rgba(255, 42, 133, 0.5);
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+        /* STRÁNKA KONTAKT (HQ) */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
+        .contact-box {
+            background: var(--glass-bg); padding: 40px 30px; border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;
+        }
+        .contact-box h3 { color: var(--pink-neon); margin-bottom: 15px; font-size: 1.5rem;}
 
+        /* CHECKOUT MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .checkout-box {
-            background: #151a17;
-            border: 1px solid var(--pink-neon);
-            box-shadow: 0 0 30px rgba(255, 42, 133, 0.2);
-            border-radius: 12px;
-            width: 90%;
-            max-width: 400px;
-            padding: 30px;
-            position: relative;
-            transform: translateY(20px);
-            transition: 0.3s;
+            background: #151a17; border: 2px solid var(--pink-neon);
+            box-shadow: 0 0 40px rgba(255, 42, 133, 0.3); border-radius: 12px;
+            width: 90%; max-width: 400px; padding: 30px; position: relative;
+            transform: translateY(20px); transition: 0.3s;
         }
-
         .modal-overlay.active .checkout-box { transform: translateY(0); }
-
-        .close-modal {
-            position: absolute;
-            top: 15px; right: 20px;
-            font-size: 1.5rem;
-            color: #aaa;
-            cursor: pointer;
-        }
-
-        .checkout-box h2 {
-            margin-bottom: 20px;
-            font-family: 'Permanent Marker', cursive;
-            color: var(--pink-neon);
-        }
-
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #aaa; cursor: pointer; }
+        .checkout-box h2 { margin-bottom: 20px; font-family: 'Permanent Marker', cursive; color: var(--pink-neon); }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.85rem; color: #aaa; margin-bottom: 5px; }
         .form-group input {
-            width: 100%; padding: 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 6px;
-            color: white;
-            outline: none;
+            width: 100%; padding: 12px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; outline: none;
         }
         .form-group input:focus { border-color: var(--pink-neon); }
-
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
         .pay-btn {
-            width: 100%; padding: 15px;
-            background: var(--pink-neon);
-            color: white; border: none; border-radius: 6px;
-            font-size: 1.1rem; font-weight: bold;
-            cursor: pointer; margin-top: 10px;
-            transition: 0.2s;
+            width: 100%; padding: 15px; background: var(--pink-neon);
+            color: white; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: bold;
+            cursor: pointer; margin-top: 10px; transition: 0.2s;
         }
-        .pay-btn:hover { background: #ff107a; }
+        .pay-btn:hover { background: #ff107a; box-shadow: 0 0 15px var(--pink-neon); }
 
-        /* RESPONZIVITA (Mobil) */
+        /* FOOTER */
+        footer {
+            text-align: center; padding: 30px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #666; font-size: 0.9rem; margin-top: auto;
+        }
+
+        /* RUŽOVÉ MOBILNÉ MENU */
         @media (max-width: 768px) {
-            .hamburger { display: flex; }
+            .hamburger { display: flex; z-index: 1001; }
             
+            /* Prerobené menu - Úplne ružové na celý displej */
             .nav-links {
                 position: fixed;
                 top: 0; right: -100%;
-                width: 70vw; height: 100vh;
-                background: #0d110f;
+                width: 100vw; height: 100vh;
+                background: var(--pink-neon); /* Sýto ružová */
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                border-left: 2px solid var(--pink-neon);
-                transition: 0.3s;
+                gap: 40px;
+                transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+                z-index: 1000;
             }
-
             .nav-links.active { right: 0; }
             
-            .header-actions {
-                margin-right: 15px; /* Priestor pre menu */
+            .nav-links a {
+                color: white; /* Biely text na ružovej */
+                font-size: 2rem; /* Obrovské nápisy */
+                font-weight: 800;
+                letter-spacing: 3px;
+                text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
             }
+            
+            /* Zmena farby hamburger ikonky, keď je na ružovom pozadí */
+            .hamburger.active span { background-color: white; }
+            
+            .header-actions { margin-right: 15px; }
+            .page { padding: 100px 5vw 60px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="#" class="logo">trincity</a>
+        <a onclick="switchPage('page-home')" class="logo">trincity</a>
         
         <nav class="nav-links" id="nav-menu">
-            <a href="#">Všetko</a>
-            <a href="#">Streetwear</a>
-            <a href="#">Premium Knits</a>
-            <a href="#">Sale</a>
+            <a onclick="switchPage('page-home')">Úvod</a>
+            <a onclick="switchPage('page-about')">O Nás</a>
+            <a onclick="switchPage('page-shop')">Stash (Shop)</a>
+            <a onclick="switchPage('page-contact')">HQ</a>
         </nav>
 
         <div class="header-actions">
-            <button class="cart-btn" onclick="openCheckout()">Stash (<span id="cart-count">0</span>)</button>
-            <button class="hamburger" onclick="toggleMenu()">
+            <button class="cart-btn" onclick="openCheckout()">Cart (<span id="cart-count">0</span>)</button>
+            <button class="hamburger" id="hamburger-btn" onclick="toggleMenu()">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </header>
 
-    <section class="hero">
-        <h1>STREET MEETS PREP</h1>
-        <p>Od surového streetwearu až po luxusné pleteniny. Vyber si svoj vibe.</p>
-    </section>
+    <main id="page-home" class="page active">
+        <h1>Ulica spojená<br>s luxusom</h1>
+        <p>Prinášame ti nekompromisný výber. Od surového streetwearu až po prémiové pleteniny, ktoré definujú tvoju identitu.</p>
+        <a onclick="switchPage('page-shop')" class="btn-outline">Otvoriť Stash</a>
+    </main>
 
-    <section class="products">
+    <main id="page-about" class="page">
+        <h2 class="page-title">Naša <span>vízia</span></h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p><strong>Nie sme len ďalší obchod s oblečením.</strong> Trincity vzniklo z jednoduchej potreby – prečo by si si mal vyberať medzi pohodlím ulice a prémiovým vzhľadom?</p>
+                <p>Rozhodli sme sa priniesť kurátorský výber toho najlepšieho z oboch svetov. U nás nájdeš drsné baggy strihy a maskáčové vzory pre tvoje každodenné "survival" momenty v meste, ale aj prémiové kúsky ako Ralph Lauren pre dni, kedy potrebuješ vyzerať čisto a nedostupne.</p>
+                <p>Naša kultúra je o rešpekte k materiálom, k street-artu a k nezávislosti. Sme Trincity.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1517423738875-5ce310aca3ef?auto=format&fit=crop&w=800&q=80" alt="Trincity Vibe">
+            </div>
+        </div>
+    </main>
+
+    <main id="page-shop" class="page">
+        <h2 class="page-title">Latest <span>Drops</span></h2>
         <div class="grid">
-            
             <div class="product-card">
                 <div class="sale-badge">SALE</div>
                 <div class="img-container">
@@ -381,7 +461,7 @@
                 </div>
                 <h3>Essence Hoodie</h3>
                 <div class="price"><span class="old-price">110.00 €</span> 79.99 €</div>
-                <button class="add-btn" onclick="addToCart()">Add to cart</button>
+                <button class="add-btn" onclick="addToCart()">Pridať do košíka</button>
             </div>
 
             <div class="product-card">
@@ -390,7 +470,7 @@
                 </div>
                 <h3>Aurelian Knit Sweater</h3>
                 <div class="price">129.00 €</div>
-                <button class="add-btn" onclick="addToCart()">Add to cart</button>
+                <button class="add-btn" onclick="addToCart()">Pridať do košíka</button>
             </div>
 
             <div class="product-card">
@@ -400,26 +480,45 @@
                 </div>
                 <h3>Virex Core Knit</h3>
                 <div class="price"><span class="old-price">95.00 €</span> 85.99 €</div>
-                <button class="add-btn" onclick="addToCart()">Add to cart</button>
+                <button class="add-btn" onclick="addToCart()">Pridať do košíka</button>
             </div>
 
             <div class="product-card">
                 <div class="img-container">
                     <img src="https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=500&q=80" style="border-radius: 8px;" alt="Polo">
                 </div>
-                <h3>Classic Polo Shirt</h3>
+                <h3>Premium Classic Polo</h3>
                 <div class="price">65.00 €</div>
-                <button class="add-btn" onclick="addToCart()">Add to cart</button>
+                <button class="add-btn" onclick="addToCart()">Pridať do košíka</button>
             </div>
-
         </div>
-    </section>
+    </main>
+
+    <main id="page-contact" class="page">
+        <h2 class="page-title">Spoj sa s <span>H.Q.</span></h2>
+        <div class="contact-grid">
+            <div class="contact-box">
+                <h3>Zákaznícky servis</h3>
+                <p>Máš problém s objednávkou?</p>
+                <p style="margin-top: 10px; font-weight: bold; color: white;">support@trincity.sk</p>
+            </div>
+            <div class="contact-box">
+                <h3>Sociálne siete</h3>
+                <p>Sleduj naše dropy a zákulisie.</p>
+                <p style="margin-top: 10px; font-weight: bold; color: white;">@trincity_official</p>
+            </div>
+            <div class="contact-box">
+                <h3>Doprava</h3>
+                <p>Rýchle doručenie kuriérom alebo Packeta.</p>
+                <p style="margin-top: 10px; font-weight: bold; color: white;">Free nad 150€</p>
+            </div>
+        </div>
+    </main>
 
     <div class="modal-overlay" id="checkout-modal">
         <div class="checkout-box">
             <span class="close-modal" onclick="closeCheckout()">&times;</span>
             <h2>SECURE CHECKOUT</h2>
-            
             <form id="payment-form" onsubmit="processPayment(event)">
                 <div class="form-group">
                     <label>Meno na karte</label>
@@ -444,15 +543,47 @@
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2026 trincity. Všetky práva vyhradené. Streetwear & Premium culture.</p>
+    </footer>
+
     <script>
-        // Logika košíka
+        // --- 1. PREPÍNANIE STRÁNOK ---
+        function switchPage(pageId) {
+            // Skryje všetky stránky
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Zobrazí len tú, na ktorú si klikol
+            document.getElementById(pageId).classList.add('active');
+            
+            // Zavrie mobilné menu, ak je otvorené
+            const menu = document.getElementById('nav-menu');
+            const hamburger = document.getElementById('hamburger-btn');
+            if(menu.classList.contains('active')) {
+                menu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+            
+            // Vyroluje ťa úplne hore na novú stránku
+            window.scrollTo(0, 0);
+        }
+
+        // --- 2. MOBILNÉ MENU ---
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            const hamburger = document.getElementById('hamburger-btn');
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // --- 3. KOŠÍK A PLATBA ---
         let cart = 0;
         const cartCountEl = document.getElementById('cart-count');
 
         function addToCart() {
             cart++;
             cartCountEl.innerText = cart;
-            // Vizuálny feedback na tlačidlo košíka
             const btn = document.querySelector('.cart-btn');
             btn.style.transform = 'scale(1.1)';
             btn.style.backgroundColor = 'white';
@@ -464,18 +595,11 @@
             }, 200);
         }
 
-        // Mobilné menu
-        function toggleMenu() {
-            const menu = document.getElementById('nav-menu');
-            menu.classList.toggle('active');
-        }
-
-        // Checkout logika
         const modal = document.getElementById('checkout-modal');
 
         function openCheckout() {
             if (cart === 0) {
-                alert("Tvoj Stash (košík) je prázdny. Pridaj najprv nejaký drop.");
+                alert("Tvoj Cart (košík) je prázdny. Pridaj si niečo z dropu.");
                 return;
             }
             modal.classList.add('active');
@@ -488,23 +612,21 @@
         }
 
         function processPayment(e) {
-            e.preventDefault(); // Zastaví reálne odoslanie formulára
+            e.preventDefault();
             const btn = document.getElementById('pay-btn-text');
-            
-            // Simulácia načítania platby
             btn.innerText = "Spracúvam...";
             btn.style.opacity = "0.7";
-            
             setTimeout(() => {
                 alert("PLATBA ÚSPEŠNÁ! Tvoj drop je na ceste.");
-                cart = 0; // Vynulovanie košíka po platbe
+                cart = 0;
                 cartCountEl.innerText = cart;
                 closeCheckout();
                 btn.style.opacity = "1";
-            }, 1500); // Trvá to 1.5 sekundy
+            }, 1500);
         }
     </script>
 
 </body>
 </html>
+
 
